@@ -1,0 +1,90 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+
+* gitのメモ
+
+** addしていないものを表示したい
+#+BEGIN_SRC bash
+git diff
+#+END_SRC
+
+** commitで反映されるものを表示したい
+#+BEGIN_SRC bash
+git diff --cached
+#+END_SRC
+
+** `git add`を取り消したい場合
+#+BEGIN_SRC bash
+git restore --staged <filename>
+# git reset <filename> # ..も同様に使えるが、今後は使わない
+#+END_SRC
+
+** `Index`の内容で、`Working Dir`を上書きしたい
+#+BEGIN_SRC bash
+git restore <filename>
+# git checkout <filename> # ..も同様に使えるが、今後は使わない
+#+END_SRC
+
+** `Index`の内容で、`Working Dir`を上書きし、管理対象からも外したい
+#+BEGIN_SRC bash
+git restore <filename>
+git reset <filename>
+# git rm --cached <filename> # ..も同じように活用できるらしい
+#+END_SRC
+
+** 直近の変更を、件数を指定して表示したい
+#+BEGIN_SRC bash
+git log --oneline -5
+#+END_SRC
+
+** 直近の変更を、樹形図のように表示したい
+#+BEGIN_SRC bash
+git log --graph --decorate --oneline
+#+END_SRC
+
+** 直近のコミットをやり直す
+#+BEGIN_SRC bash
+# 変更を加味したいファイルは、ステージングエリアに置いておく
+# 以下のコマンドをただ叩くだけだと、コメントの修正になる
+git commit --amend
+#+END_SRC
+
+** コミットを打ち消したい
+#+BEGIN_SRC bash
+git revert HEAD
+#+END_SRC
+
+** リモートリポジトリと比較したい
+#+BEGIN_SRC bash
+git diff HEAD..origin/master
+#+END_SRC
+
+** マージ前の準備.. ＊pull は行わず、常に fetch を経由する＊
+#+BEGIN_SRC bash
+git fetch <remote-name.. `origin`等だが、省略可>
+# fetch 後は、git status や git diff でソースの状態を良く確認してから merge する
+#+END_SRC
+
+** リモートの内容をマージする
+#+BEGIN_SRC bash
+git merge origin/<branch-name.. masterとか>
+#+END_SRC
+
+** ブランチ間を比較したい
+#+BEGIN_SRC bash
+# <branch-B>が古いものとして扱われる
+git diff <branch-A> <branch-B>
+p# リモートブランチ（develop）と比較する
+git diff develop origin/develop
+#+END_SRC
+
+** コミットされていない変更を一時保存する／一時保存分を復元する
+#+BEGIN_SRC bash
+git stash     # 保存
+git stash pop # 復元
+#+END_SRC
+
+** リモートブランチをローカルに取得
+#+BEGIN_SRC bash
+git branch new-branch origin/new-branch
+#+END_SRC
+
